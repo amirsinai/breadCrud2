@@ -17,7 +17,7 @@ function Show({ bread, index }) {
       <form action={`/breads/${bread.id}?_method=DELETE`} method="POST">
         <input type="submit" value="DELETE" />
       </form>
-      <p>Baked By: {bread.baker}</p>
+      <p>{bread.getBakedBy()}</p>
 
       <a href={`/breads/${bread.id}/edit`}>
         <button>Edit</button>
