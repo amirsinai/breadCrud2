@@ -4,16 +4,13 @@ const Bread = require("../models/bread.js");
 
 // INDEX
 breads.get("/", (req, res) => {
-  // res.render("index", {
-  //   breads: Bread,
-  // });
-  // res.send(Bread)
   console.log(Bread);
+
   Bread.find().then((foundBreads) => {
     console.log(foundBreads);
     res.render("index", {
       breads: foundBreads,
-      title: "index page",
+      title: "Index Page",
     });
   });
 });
@@ -32,7 +29,10 @@ breads.get("/:indexArray/edit", (req, res) => {
 });
 
 // SHOW
-breads.get("/:arrayIndex", (req, res) => {
+breads.get("/:id", (req, res) => {
+  Bread.findById(req.params.id).then((foundBread) => {
+    res.render("Show", { bread: foundBread });
+  });
   // if (Bread[req.params.arrayIndex]) {
   //   res.render("Show", {
   //     bread: Bread[req.params.arrayIndex],
@@ -43,10 +43,6 @@ breads.get("/:arrayIndex", (req, res) => {
   //     arrayIndex: req.params.arrayIndex,
   //   });
   // }
-Bread.findById()
-
-
-
 });
 
 // CREATE
@@ -91,10 +87,16 @@ breads.put("/:arrayIndex", (req, res) => {
 });
 
 // DELETE
+// breads.delete("/:indexArray", (req, res) => {
+//   console.log("did this do anything");
+//   Bread.splice(req.params.indexArray, 1);
+//   res.status(303).redirect("/breads");
+// });
+
 breads.delete("/:indexArray", (req, res) => {
-  console.log("did this do anything");
-  Bread.splice(req.params.indexArray, 1);
-  res.status(303).redirect("/breads");
+  Bread.findByIdAndDelete(req.params.indexArray).then((deletedBread) => {
+    res.status(303).redirect("/breads");
+  });
 });
 
 module.exports = breads;
